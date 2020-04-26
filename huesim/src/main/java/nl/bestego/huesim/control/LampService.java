@@ -61,4 +61,12 @@ public class LampService {
         }
     }
 
+    public boolean isExisting(Long id){
+        return repository.findById(id).isPresent()?true:false;
+    }
+
+    public boolean isAan(Long id){
+        return repository.findById(id).get().isAan();
+    }
+
 }
