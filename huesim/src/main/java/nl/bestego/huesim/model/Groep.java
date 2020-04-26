@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import java.util.ArrayList;
 
 @Entity
-public class Ruimte {
+public class Groep {
 
     @Id
     @Getter @Setter private Long id;
