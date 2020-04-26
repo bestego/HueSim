@@ -56,6 +56,7 @@ public class GroepService {
 
             Set<Long> lampIds = Arrays.asList(groep.getLampen().split(","))
                     .stream()
+                    .filter(s -> s.length() > 0)
                     .map(Long::new)
                     .collect(Collectors.toSet());
 
