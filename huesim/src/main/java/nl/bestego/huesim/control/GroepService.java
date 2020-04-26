@@ -65,7 +65,7 @@ public class GroepService {
         }
     }
 
-    private void synchroniseerMetLampen() {
+    private void synchroniseerMetLampen() { //ToDo test with nonexistent Lamp references
 
         List<Groep> groepen = repository.findAll();
         for (Groep groep : groepen) {
@@ -91,21 +91,18 @@ public class GroepService {
         return lampIds
                 .stream()
                 .map(id -> lampService.statusLamp(id))
-                .map(lamp -> lamp.isAan())
-                .anyMatch(b -> b);
+                .anyMatch(Lamp::isAan);
     }
 
     private boolean isAlleAan(Set<Long> lampIds) {
         return lampIds
                 .stream()
                 .map(id -> lampService.statusLamp(id))
-                .map(lamp -> lamp.isAan())
-                .allMatch(b -> b);
+                .allMatch(Lamp::isAan);
     }
 
     private Set<Long> getLampIds(Groep groep) {
-        return Arrays.asList(groep.getLampen().split(","))
-                .stream()
+        return Arrays.stream(groep.getLampen().split(","))
                 .filter(s -> s.length() > 0)
                 .map(Long::new)
                 .collect(Collectors.toSet());

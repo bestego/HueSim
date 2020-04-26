@@ -1,14 +1,10 @@
 package nl.bestego.huesim.control;
 
-
 import nl.bestego.huesim.model.Lamp;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.sql.PreparedStatement;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,11 +20,7 @@ public class LampService {
 
     public Lamp statusLamp(Long id) {
         Optional<Lamp> result = repository.findById(id);
-        if (result.isPresent()) {
-            return result.get();
-        } else {
-            return result.orElse(new Lamp());
-        }
+        return result.orElseGet(() -> result.orElse(new Lamp()));
     }
 
     public List<Lamp> statusLampen() {
@@ -60,13 +52,4 @@ public class LampService {
             return false;
         }
     }
-
-//    public boolean isExisting(Long id){
-//        return repository.findById(id).isPresent()?true:false;
-//    }
-//
-//    public boolean isAan(Long id){
-//        return repository.findById(id).get().isAan();
-//    }
-
 }
