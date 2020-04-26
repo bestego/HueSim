@@ -49,8 +49,16 @@ public class LampService {
         }
     }
 
-    public void wijzigStatusLamp(Lamp lamp) {
-
+    public boolean wijzigStatusLamp(Lamp lamp, Long id) {
+        Optional<Lamp> oudeLamp = repository.findById(id);
+        if (oudeLamp.isPresent() && lamp.getOmschrijving().length() > 0) {
+            oudeLamp.get().setAan(lamp.isAan());
+            oudeLamp.get().setHelderheid(lamp.getHelderheid());
+            repository.save(oudeLamp.get());
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

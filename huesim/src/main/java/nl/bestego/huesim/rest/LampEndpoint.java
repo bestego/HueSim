@@ -41,4 +41,15 @@ public class LampEndpoint {
         }
     }
 
+    @PutMapping("/lamp/{id}/status")
+    public @ResponseBody
+    ResponseEntity<String> wijzigStatusLamp(@RequestBody Lamp lamp, @PathVariable Long id) {
+        System.out.println("putWijzigNaamLamp: /lamp/" + id + "/status");
+        if ( service.wijzigStatusLamp(lamp, id) ){
+            return new ResponseEntity<>("OK", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("NOK", HttpStatus.NO_CONTENT);
+        }
+    }
+
 } // LampEndpoint

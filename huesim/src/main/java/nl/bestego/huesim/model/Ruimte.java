@@ -14,7 +14,8 @@ public class Ruimte {
     @Getter @Setter private Long id;
     @Getter @Setter private String omschrijving;
     @Getter @Setter private String lampen;
-    @Getter @Setter private boolean aan; //ToDo: splitsen in allenAan en enkeleAan + data.sql aanpassen
+    @Getter @Setter private boolean enkele_aan;
+    @Getter @Setter private boolean alle_aan;
     @Getter @Setter private int helderheid;
 
 }
