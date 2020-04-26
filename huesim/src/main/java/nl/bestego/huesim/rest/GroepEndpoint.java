@@ -40,4 +40,15 @@ public class GroepEndpoint {
             return new ResponseEntity<>("NOK", HttpStatus.NO_CONTENT);
         }
     }
+
+    @PutMapping("/groep/{id}/actie")
+    public @ResponseBody
+    ResponseEntity<String> actieGroep(@RequestBody Lamp lamp, @PathVariable Long id) {
+        System.out.println("actieGroep: /groep/" + id + "/actie");
+        if ( service.actieGroep(lamp, id) ){
+            return new ResponseEntity<>("OK", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("NOK", HttpStatus.NO_CONTENT);
+        }
+    }
 }

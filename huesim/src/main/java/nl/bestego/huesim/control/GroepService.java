@@ -1,6 +1,7 @@
 package nl.bestego.huesim.control;
 
 import nl.bestego.huesim.model.Groep;
+import nl.bestego.huesim.model.Lamp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,39 +48,66 @@ public class GroepService {
         }
     }
 
+    public boolean actieGroep(Lamp lampUpdate, Long groepId) {
+        Optional<Groep> groep = repository.findById(groepId);
+        if (groep.isPresent()) {
+            Set<Long> lampIds = getLampIds(groep.get());
+            for (Long lampId : lampIds) {
+                Lamp lamp = lampService.statusLamp(lampId);
+                lamp.setAan(lampUpdate.isAan());
+                lamp.setHelderheid(lampUpdate.getHelderheid());
+                lampService.wijzigStatusLamp(lamp, lampId);
+            }
+            synchroniseerMetLampen();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     private void synchroniseerMetLampen() {
-    //ToDo: check if lamp existing; test groep without lamps
 
         List<Groep> groepen = repository.findAll();
-
         for (Groep groep : groepen) {
-
-            Set<Long> lampIds = Arrays.asList(groep.getLampen().split(","))
-                    .stream()
-                    .filter(s -> s.length() > 0)
-                    .map(Long::new)
-                    .collect(Collectors.toSet());
-
-            boolean alleAan = lampIds
-                    .stream()
-                    .map(id -> lampService.statusLamp(id))
-                    .map(lamp -> lamp.isAan())
-                    .allMatch(b -> b);
-
-            boolean enkeleAan = lampIds
-                    .stream()
-                    .map(id -> lampService.statusLamp(id))
-                    .map(lamp -> lamp.isAan())
-                    .anyMatch(b -> b);
-
-            if (alleAan) groep.setAlle_aan(true);
-            if (enkeleAan) {
-                groep.setEnkele_aan(true);
-            } else {
-                groep.setEnkele_aan(false);
-                groep.setAlle_aan(false);
-            }
-            repository.save(groep);
+            Set<Long> lampIds = getLampIds(groep);
+            boolean alleAan = isAlleAan(lampIds);
+            boolean enkeleAan = isEnkeleAan(lampIds);
+            updateGroep(groep, alleAan, enkeleAan);
         }
+    }
+
+    private void updateGroep(Groep groep, boolean alleAan, boolean enkeleAan) {
+        if (alleAan) groep.setAlle_aan(true);
+        if (enkeleAan) {
+            groep.setEnkele_aan(true);
+        } else {
+            groep.setEnkele_aan(false);
+            groep.setAlle_aan(false);
+        }
+        repository.save(groep);
+    }
+
+    private boolean isEnkeleAan(Set<Long> lampIds) {
+        return lampIds
+                .stream()
+                .map(id -> lampService.statusLamp(id))
+                .map(lamp -> lamp.isAan())
+                .anyMatch(b -> b);
+    }
+
+    private boolean isAlleAan(Set<Long> lampIds) {
+        return lampIds
+                .stream()
+                .map(id -> lampService.statusLamp(id))
+                .map(lamp -> lamp.isAan())
+                .allMatch(b -> b);
+    }
+
+    private Set<Long> getLampIds(Groep groep) {
+        return Arrays.asList(groep.getLampen().split(","))
+                .stream()
+                .filter(s -> s.length() > 0)
+                .map(Long::new)
+                .collect(Collectors.toSet());
     }
 }

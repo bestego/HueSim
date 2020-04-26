@@ -43,7 +43,7 @@ public class LampEndpoint {
 
     @PutMapping("/lamp/{id}/status")
     public @ResponseBody
-    ResponseEntity<String> wijzigStatusLamp(@RequestBody Lamp lamp, @PathVariable Long id) { //ToDo: test with incomplete body
+    ResponseEntity<String> wijzigStatusLamp(@RequestBody Lamp lamp, @PathVariable Long id) { //ToDo: test with incomplete body (empty omschrijving)
         System.out.println("putWijzigNaamLamp: /lamp/" + id + "/status");
         if ( service.wijzigStatusLamp(lamp, id) ){
             return new ResponseEntity<>("OK", HttpStatus.OK);

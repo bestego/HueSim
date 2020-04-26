@@ -15,4 +15,8 @@ public class Lamp {
     @Getter @Setter private boolean aan;
     @Getter @Setter private int helderheid;
 
+    public String toString(){
+        return String.format("id:%d omschrijving:%s aan:%s helderheid:%d",getId(),getOmschrijving(),isAan(),getHelderheid());
+    }
+
 }
