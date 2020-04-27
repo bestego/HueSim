@@ -15,6 +15,9 @@ public class LampService {
     @Autowired
     private LampRepository repository;
 
+    @Autowired
+    GroepService groepService;
+
     public void nieuweLamp() {
     }
 
@@ -47,6 +50,7 @@ public class LampService {
             oudeLamp.get().setAan(lamp.isAan());
             oudeLamp.get().setHelderheid(lamp.getHelderheid());
             repository.save(oudeLamp.get());
+            groepService.synchroniseerMetLampen();
             return true;
         } else {
             return false;

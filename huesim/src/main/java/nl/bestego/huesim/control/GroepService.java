@@ -74,7 +74,7 @@ public class GroepService {
         }
     }
 
-    private void synchroniseerMetLampen() {
+    public void synchroniseerMetLampen() {
 
         List<Groep> groepen = repository.findAll();
         for (Groep groep : groepen) {
