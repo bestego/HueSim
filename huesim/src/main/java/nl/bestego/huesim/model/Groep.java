@@ -16,6 +16,5 @@ public class Groep {
     @Getter @Setter private String lampen;
     @Getter @Setter private boolean enkele_aan;
     @Getter @Setter private boolean alle_aan;
-    @Getter @Setter private int helderheid; //ToDo: seem unused
 
 }

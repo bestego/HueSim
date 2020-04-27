@@ -1,5 +1,5 @@
-- Lombok toevoegen als spring dependency en niet als IntelliJ plugin
+- Lombok ook als spring dependency toegevoegd
 - Application class mag niet in een subpackage verplaatst worden
-- @Entity velden / data.sql:  lowercase + _ ; geen camelCase => SQL error: vannot find column camelCase
-- inheritance by @Entity classes lijkt niet te werken
-- elke @Entity heeft zijn eigen JpaRespitory nodig (1:1)
+- @Entity velden / data.sql:  lowercase + _ ; geen camelCase => SQL error: cannot find column camelCase (enkel uppercase niet uitgetest)
+- inheritance by @Entity classes lijkt problemen te veroorzaken
+- elke @Entity heeft zijn eigen JpaRespitory en eigen table in de database (1:1)

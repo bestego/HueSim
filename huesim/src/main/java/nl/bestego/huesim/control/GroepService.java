@@ -74,7 +74,7 @@ public class GroepService {
         }
     }
 
-    private void synchroniseerMetLampen() { //ToDo test with nonexistent Lamp references
+    private void synchroniseerMetLampen() {
 
         List<Groep> groepen = repository.findAll();
         for (Groep groep : groepen) {
@@ -134,10 +134,10 @@ public class GroepService {
     }
 
     private String set2csv(Set<Long> set) {
-        StringBuilder sb = new StringBuilder();
-        for (Long l : set) {
-            sb.append(l).append(",");
-        }
-        return sb.length() > 0 ? sb.deleteCharAt(sb.length() - 1).toString() : "";
+
+        return set.stream()
+                .sorted()
+                .map(number -> number.toString())
+                .collect(Collectors.joining(","));
     }
 }
