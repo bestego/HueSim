@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -43,7 +44,7 @@ public class GroepEndpoint {
 
     @PutMapping("/groep/{id}/actie")
     public @ResponseBody
-    ResponseEntity<String> actieGroep(@RequestBody Lamp lamp, @PathVariable Long id) {
+    ResponseEntity<String> actieGroep(@RequestBody @Valid Lamp lamp, @PathVariable Long id) {
         System.out.println("actieGroep: /groep/" + id + "/actie");
         if ( service.actieGroep(lamp, id) ){
             return new ResponseEntity<>("OK", HttpStatus.OK);
