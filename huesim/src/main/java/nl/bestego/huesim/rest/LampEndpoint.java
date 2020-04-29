@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +33,7 @@ public class LampEndpoint {
 
     @PutMapping("/lamp/{id}")
     public @ResponseBody
-    ResponseEntity<String> wijzigNaamLamp(@RequestBody Lamp lamp, @PathVariable Long id) {
+    ResponseEntity<String> wijzigNaamLamp(@RequestBody @Valid Lamp lamp, @PathVariable Long id) {
         System.out.println("putWijzigNaamLamp: /lamp/" + id);
         if ( service.wijzigNaamLamp(lamp, id) ){
             return new ResponseEntity<>("OK", HttpStatus.OK);
@@ -43,7 +44,7 @@ public class LampEndpoint {
 
     @PutMapping("/lamp/{id}/status")
     public @ResponseBody
-    ResponseEntity<String> wijzigStatusLamp(@RequestBody Lamp lamp, @PathVariable Long id) { //ToDo: test with incomplete body (empty omschrijving)
+    ResponseEntity<String> wijzigStatusLamp(@RequestBody @Valid Lamp lamp, @PathVariable Long id) { //ToDo: test with incomplete body (empty omschrijving)
         System.out.println("putWijzigNaamLamp: /lamp/" + id + "/status");
         if ( service.wijzigStatusLamp(lamp, id) ){
             return new ResponseEntity<>("OK", HttpStatus.OK);

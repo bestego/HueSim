@@ -3,3 +3,5 @@
 - @Entity velden / data.sql:  lowercase + _ ; geen camelCase => SQL error: cannot find column camelCase (enkel uppercase niet uitgetest)
 - inheritance by @Entity classes lijkt problemen te veroorzaken
 - elke @Entity heeft zijn eigen JpaRespitory en eigen table in de database (1:1)
+- ? standaard debugg nog mogelijk?
+www.github.com/bestego/HueSim
