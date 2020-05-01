@@ -49,7 +49,7 @@ public class GroepService {
         Optional<Groep> oudeGroep = repository.findById(id);
         if (oudeGroep.isPresent()) {
             if (groep.getOmschrijving() != null) oudeGroep.get().setOmschrijving(groep.getOmschrijving());
-            if (groep.getLampen() != null) oudeGroep.get().setLampen(groep.getLampen());
+            if (groep.getLamplijst() != null) oudeGroep.get().setLamplijst(groep.getLamplijst());
             repository.save(oudeGroep.get());
             return true;
         } else {
@@ -111,13 +111,13 @@ public class GroepService {
     }
 
     private Set<Long> getLampIds(Groep groep) {
-        Set<Long> lampIds = Arrays.stream(groep.getLampen().split(","))
+        Set<Long> lampIds = Arrays.stream(groep.getLamplijst().split(","))
                 .filter(s -> s.length() > 0)
                 .map(Long::new)
                 .collect(Collectors.toSet());
 
         Set<Long> validatedLampIds = validateLampIds(lampIds);
-        groep.setLampen(set2csv(validatedLampIds));
+        groep.setLamplijst(set2csv(validatedLampIds));
         wijzigActieGroep(groep, groep.getId());
 
         return validatedLampIds;

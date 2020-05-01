@@ -5,10 +5,13 @@ import nl.bestego.huesim.model.validation.Range;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Data
@@ -22,6 +25,8 @@ public class Lamp {
     private boolean aan;
     @Range(message = "Waarde niet tussen {min}..{max}",min=0,max=100)
     private int helderheid;
+    @ManyToMany(mappedBy = "lampen")
+    private Set<Groep> groepen = new HashSet();
 
     // ToDo: only for debugging; remove
     public String toString() {
