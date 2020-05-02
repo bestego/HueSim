@@ -1,5 +1,6 @@
 package nl.bestego.huesim.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +28,7 @@ public class Groep {
             joinColumns = {@JoinColumn(name = "groep_id")},
             inverseJoinColumns = {@JoinColumn(name = "lamp_id")}
     )
+    @JsonIgnore
     private Set<Lamp> lampen;
     private boolean enkele_aan;
     private boolean alle_aan;

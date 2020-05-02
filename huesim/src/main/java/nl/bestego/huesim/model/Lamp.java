@@ -1,5 +1,6 @@
 package nl.bestego.huesim.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import nl.bestego.huesim.model.validation.Range;
 
@@ -26,6 +27,7 @@ public class Lamp {
     @Range(message = "Waarde niet tussen {min}..{max}",min=0,max=100)
     private int helderheid;
     @ManyToMany(mappedBy = "lampen")
+    @JsonIgnore
     private Set<Groep> groepen = new HashSet();
 
     // ToDo: only for debugging; remove
