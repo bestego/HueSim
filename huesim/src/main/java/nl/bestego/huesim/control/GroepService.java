@@ -1,5 +1,6 @@
 package nl.bestego.huesim.control;
 
+import nl.bestego.huesim.dto.GroepDTO;
 import nl.bestego.huesim.model.Groep;
 import nl.bestego.huesim.model.Lamp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,10 @@ public class GroepService {
     @Autowired
     LampService lampService;
 
-    public List<Groep> statusGroepen() {
-        synchroniseerMetLampen();
-        return repository.findAll();
+    public List<GroepDTO> statusGroepen() {
+        return repository.findAll().stream()
+                .map(GroepDTO::new)
+                .collect(Collectors.toList());
     }
 
     public Groep statusGroep(Long id) {

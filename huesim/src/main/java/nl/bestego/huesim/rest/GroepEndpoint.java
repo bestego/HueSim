@@ -1,6 +1,7 @@
 package nl.bestego.huesim.rest;
 
 import nl.bestego.huesim.control.GroepService;
+import nl.bestego.huesim.dto.GroepDTO;
 import nl.bestego.huesim.model.Groep;
 import nl.bestego.huesim.model.Lamp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class GroepEndpoint {
 
     @GetMapping("/groep")
     public @ResponseBody
-    List<Groep> StatusGroepen() {
+    List<GroepDTO> StatusGroepen() {
         System.out.println("StatusGroepen: /groep");
         return service.statusGroepen();
     }

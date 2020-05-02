@@ -1,7 +1,9 @@
+
 - Lombok ook als spring dependency toegevoegd
 - Application class mag niet in een subpackage verplaatst worden
 - @Entity velden / data.sql:  lowercase + _ ; geen camelCase => SQL error: cannot find column camelCase (enkel uppercase niet uitgetest)
 - inheritance by @Entity classes lijkt problemen te veroorzaken
 - elke @Entity heeft zijn eigen JpaRespitory en eigen table in de database (1:1)
-- ? standaard debugg nog mogelijk?
-www.github.com/bestego/HueSim
+200502
+- @JsonIgnore in Groep AND Lamp resolves infinite recursion for /groep and /lamp repectively
+- JsonIdentifyInfo doesn't seem to work in many2many relations

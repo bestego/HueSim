@@ -1,6 +1,8 @@
 package nl.bestego.huesim.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +16,6 @@ import java.util.Set;
 
 
 @Entity
-
 @Data
 public class Groep {
 
@@ -25,11 +26,14 @@ public class Groep {
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
             name = "groep_lamp",
-            joinColumns = {@JoinColumn(name = "groep_id")},
-            inverseJoinColumns = {@JoinColumn(name = "lamp_id")}
+            joinColumns = @JoinColumn(name = "groep_id"),
+            inverseJoinColumns = @JoinColumn(name = "lamp_id")
     )
     @JsonIgnore
     private Set<Lamp> lampen;
+    @Transient
+    Set<Long> lampIds;
+
     private boolean enkele_aan;
     private boolean alle_aan;
 
