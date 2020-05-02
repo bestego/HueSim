@@ -3,6 +3,7 @@ package nl.bestego.huesim.control;
 import nl.bestego.huesim.dto.GroepDTO;
 import nl.bestego.huesim.model.Groep;
 import nl.bestego.huesim.model.Lamp;
+import nl.bestego.huesim.util.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,10 @@ public class GroepService {
     @Autowired
     LampService lampService;
 
+    public void nieuweGroep(Groep groep) {
+        repository.save(groep); //ToDo add check later
+    }
+
     public List<GroepDTO> statusGroepen() {
         return repository.findAll().stream()
                 .map(GroepDTO::new)
@@ -29,7 +34,7 @@ public class GroepService {
     public Groep statusGroep(Long id) {
         Optional<Groep> result = repository.findById(id);
         if (result.isPresent()) {
-            synchroniseerMetLampen();
+            //synchroniseerMetLampen();
             return result.get();
         } else {
             return result.orElse(new Groep());
@@ -40,6 +45,19 @@ public class GroepService {
         Optional<Groep> oudeGroep = repository.findById(id);
         if (oudeGroep.isPresent() && groep.getOmschrijving().length() > 0) {
             oudeGroep.get().setOmschrijving(groep.getOmschrijving());
+            repository.save(oudeGroep.get());
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean voegLampToe(Lamp lamp, Long id) {
+        Optional<Groep> oudeGroep = repository.findById(id);
+        if (oudeGroep.isPresent()) {
+            Set<Lamp> lampSet = oudeGroep.get().getLampen();
+            lampSet.add(lamp);
+            oudeGroep.get().setLampen(lampSet);
             repository.save(oudeGroep.get());
             return true;
         } else {
@@ -119,7 +137,7 @@ public class GroepService {
                 .collect(Collectors.toSet());
 
         Set<Long> validatedLampIds = validateLampIds(lampIds);
-        groep.setLamplijst(set2csv(validatedLampIds));
+        groep.setLamplijst(Converter.set2csv(validatedLampIds));
         wijzigActieGroep(groep, groep.getId());
 
         return validatedLampIds;
@@ -135,11 +153,5 @@ public class GroepService {
         return validatedIds;
     }
 
-    private String set2csv(Set<Long> set) {
 
-        return set.stream()
-                .sorted()
-                .map(number -> number.toString())
-                .collect(Collectors.joining(","));
-    }
 }

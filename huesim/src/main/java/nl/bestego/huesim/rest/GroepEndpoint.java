@@ -1,5 +1,6 @@
 package nl.bestego.huesim.rest;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.bestego.huesim.control.GroepService;
 import nl.bestego.huesim.dto.GroepDTO;
 import nl.bestego.huesim.model.Groep;
@@ -13,6 +14,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@Slf4j
 public class GroepEndpoint {
 
     @Autowired
@@ -32,11 +34,22 @@ public class GroepEndpoint {
         return service.statusGroep(id);
     }
 
+    @PutMapping("/groep/{id}/lamp")
+    public @ResponseBody
+    ResponseEntity<String> voegLampToe(@RequestBody Lamp lamp, @PathVariable Long id) {
+        log.info("voegLampToe: /groep/{}/lamp", id);
+        if (service.voegLampToe(lamp, id)) {
+            return new ResponseEntity<>("OK", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("NOK", HttpStatus.NO_CONTENT);
+        }
+    }
+
     @PutMapping("/groep/{id}")
     public @ResponseBody
     ResponseEntity<String> wijzigNaamGroep(@RequestBody Groep groep, @PathVariable Long id) {
         System.out.println("WijzigNaamGroep: /lamp/" + id);
-        if ( service.wijzigNaamGroep(groep, id) ){
+        if (service.wijzigNaamGroep(groep, id)) {
             return new ResponseEntity<>("OK", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("NOK", HttpStatus.NO_CONTENT);
@@ -47,7 +60,7 @@ public class GroepEndpoint {
     public @ResponseBody
     ResponseEntity<String> actieGroep(@RequestBody @Valid Lamp lamp, @PathVariable Long id) {
         System.out.println("actieGroep: /groep/" + id + "/actie");
-        if ( service.actieGroep(lamp, id) ){
+        if (service.actieGroep(lamp, id)) {
             return new ResponseEntity<>("OK", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("NOK", HttpStatus.NO_CONTENT);

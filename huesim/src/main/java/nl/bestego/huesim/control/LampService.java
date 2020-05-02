@@ -18,7 +18,8 @@ public class LampService {
     @Autowired
     GroepService groepService;
 
-    public void nieuweLamp() {
+    public void nieuweLamp(Lamp lamp) {
+        repository.save(lamp); //ToDo add checks later
     }
 
     public Lamp statusLamp(Long id) {

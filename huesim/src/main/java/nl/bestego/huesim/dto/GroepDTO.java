@@ -4,8 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import nl.bestego.huesim.model.Groep;
 import nl.bestego.huesim.model.Lamp;
+import nl.bestego.huesim.control.GroepService;
+import nl.bestego.huesim.util.Converter;
 
-import javax.persistence.*;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -18,21 +19,15 @@ public class GroepDTO {
     public GroepDTO(Groep groep) {
         this.id = groep.getId();
         this.omschrijving = groep.getOmschrijving();
-        this.lampIds = lampen2lampids(groep.getLampen());
+        //this.lampLijst = Converter.set2csv(groep.getLampen().stream().map(l->l.getId()).collect(Collectors.toSet()));
         this.enkele_aan = groep.isEnkele_aan();
         this.alle_aan = groep.isAlle_aan();
     }
 
     private Long id;
     private String omschrijving;
-    private Set<Long> lampIds;
+    private String lampLijst;
     private boolean enkele_aan;
     private boolean alle_aan;
-
-    private Set<Long> lampen2lampids(Set<Lamp> lampen) {
-        return lampen.stream()
-                .map(l -> l.getId())
-                .collect(Collectors.toSet());
-    }
 
 }

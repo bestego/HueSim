@@ -38,4 +38,10 @@ public class Groep {
     private boolean alle_aan;
 
 
+    public Groep(){}
+
+    public Groep(Long id, String omschrijving) {
+        this.id = id;
+        this.omschrijving = omschrijving;
+    }
 }
