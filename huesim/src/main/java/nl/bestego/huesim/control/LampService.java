@@ -1,5 +1,6 @@
 package nl.bestego.huesim.control;
 
+import nl.bestego.huesim.model.Groep;
 import nl.bestego.huesim.model.Lamp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -20,6 +22,19 @@ public class LampService {
 
     public void nieuweLamp(Lamp lamp) {
         repository.save(lamp); //ToDo add checks later
+    }
+
+    public boolean plaatsInGroep(Groep groep, Long id) {
+        Optional<Lamp> lamp = repository.findById(id);
+        if (lamp.isPresent()) {
+            Set<Groep> groepSet = lamp.get().getGroepen();
+            groepSet.add(groep);
+            lamp.get().setGroepen(groepSet);
+            repository.save(lamp.get());
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public Lamp statusLamp(Long id) {

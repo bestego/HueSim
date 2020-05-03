@@ -1,7 +1,9 @@
 package nl.bestego.huesim.rest;
 
 import lombok.extern.slf4j.Slf4j;
+import nl.bestego.huesim.control.GroepService;
 import nl.bestego.huesim.control.LampService;
+import nl.bestego.huesim.model.Groep;
 import nl.bestego.huesim.model.Lamp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,6 +58,19 @@ public class LampEndpoint {
             return new ResponseEntity<>("OK", HttpStatus.OK);
         } else {
             log.warn("putWijzigNaamLamp: /lamp/{}/status", id);
+            return new ResponseEntity<>("NOK", HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @PutMapping("/lamp/{id}/groep")
+    public @ResponseBody
+    ResponseEntity<String> plaatsInGroep(@RequestBody @Valid Groep groep, @PathVariable Long id) {
+        log.info("plaatsInGroep: /lamp/{}/groep", id);
+        if (service.plaatsInGroep(groep, id)) {
+            log.info("plaatsInGroep: /lamp/{}/groep", id);
+            return new ResponseEntity<>("OK", HttpStatus.OK);
+        } else {
+            log.warn("plaatsInGroep: /lamp/{}/groep", id);
             return new ResponseEntity<>("NOK", HttpStatus.NO_CONTENT);
         }
     }

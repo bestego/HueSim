@@ -28,7 +28,7 @@ public class InitializerService {
         groepService.nieuweGroep(new Groep(1L,"groep-1"));
         groepService.nieuweGroep(new Groep(2L,"groep-2"));
 
-//        groepService.voegLampToe(lamp1,0L);
+//        groepService.voegLampToe(lamp1,0L); //ToDo: investigate why nullpointerException when enabled
 //        groepService.voegLampToe(lamp2,0L);
 //        groepService.voegLampToe(lamp3,0L);
     }
