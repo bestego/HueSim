@@ -29,7 +29,7 @@ public class GroepEndpoint {
 
     @GetMapping("/groep/{id}")
     public @ResponseBody
-    Groep StatusGroep(@PathVariable Long id) {
+    GroepDTO StatusGroep(@PathVariable Long id) {
         System.out.println("StatusGroep: /lamp/" + id);
         return service.statusGroep(id);
     }

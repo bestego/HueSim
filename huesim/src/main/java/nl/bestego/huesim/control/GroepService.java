@@ -31,13 +31,13 @@ public class GroepService {
                 .collect(Collectors.toList());
     }
 
-    public Groep statusGroep(Long id) {
+    public GroepDTO statusGroep(Long id) {
         Optional<Groep> result = repository.findById(id);
         if (result.isPresent()) {
             //synchroniseerMetLampen();
-            return result.get();
+            return new GroepDTO(result.get());
         } else {
-            return result.orElse(new Groep());
+            return new GroepDTO();
         }
     }
 
