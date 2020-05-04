@@ -1,10 +1,10 @@
 insert into lamp(id, omschrijving, aan, helderheid) values(1,'lamp-1',TRUE,75);
 insert into lamp(id, omschrijving, aan, helderheid) values(2,'lamp-2',FALSE,50);
 insert into lamp(id, omschrijving, aan, helderheid) values(3,'lamp-3',TRUE,25);
-insert into groep(id, omschrijving, enkele_aan, alle_aan,lamplijst) values(0,'allemaal',FALSE,FALSE,'3,2,1');
-insert into groep(id, omschrijving, enkele_aan, alle_aan,lamplijst) values(1,'groep-1',FALSE,FALSE,'1,3');
-insert into groep(id, omschrijving, enkele_aan, alle_aan,lamplijst) values(2,'groep-2',FALSE,FALSE,'2');
-insert into groep(id, omschrijving, enkele_aan, alle_aan,lamplijst) values(3,'groep-leeg',FALSE,FALSE,'88,99');
+insert into groep(id, omschrijving, enkele_aan, alle_aan) values(0,'allemaal',FALSE,FALSE);
+insert into groep(id, omschrijving, enkele_aan, alle_aan) values(1,'groep-1',FALSE,FALSE);
+insert into groep(id, omschrijving, enkele_aan, alle_aan) values(2,'groep-2',FALSE,FALSE);
+insert into groep(id, omschrijving, enkele_aan, alle_aan) values(3,'groep-leeg',FALSE,FALSE);
 insert into groep_lamp(groep_id,lamp_id) values (0,1);
 insert into groep_lamp(groep_id,lamp_id) values (0,2);
 insert into groep_lamp(groep_id,lamp_id) values (0,3);

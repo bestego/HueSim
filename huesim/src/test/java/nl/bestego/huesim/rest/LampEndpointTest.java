@@ -1,10 +1,8 @@
 package nl.bestego.huesim.rest;
 
-import ch.qos.logback.core.encoder.EchoEncoder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.bestego.huesim.control.LampService;
 import nl.bestego.huesim.util.LampUtil;
-import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -16,7 +14,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -36,7 +33,7 @@ public class LampEndpointTest {
 
     @org.junit.Test
     public void getStatusLamp() throws Exception {
-        when(service.statusLampDTO(1L)).thenReturn(LampUtil.nieuweLamp(1L));
+        when(service.statusLampDTO(1L)).thenReturn(LampUtil.nieuweLampDTO(1L));
         mvc.perform(MockMvcRequestBuilders
                 .get("/lamp/1")
                 .accept(MediaType.APPLICATION_JSON))
@@ -46,7 +43,7 @@ public class LampEndpointTest {
 
     @org.junit.Test
     public void getStatusLampen() throws Exception {
-        when(service.statusLampenDTO()).thenReturn(LampUtil.nieuweLampen());
+        when(service.statusLampenDTO()).thenReturn(LampUtil.nieuweLampenDTO());
         mvc.perform(MockMvcRequestBuilders
                 .get("/lamp")
                 .accept(MediaType.APPLICATION_JSON))
