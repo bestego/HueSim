@@ -1,8 +1,8 @@
 package nl.bestego.huesim.rest;
 
 import lombok.extern.slf4j.Slf4j;
-import nl.bestego.huesim.control.GroepService;
 import nl.bestego.huesim.control.LampService;
+import nl.bestego.huesim.dto.LampDTO;
 import nl.bestego.huesim.model.Groep;
 import nl.bestego.huesim.model.Lamp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,18 +22,18 @@ public class LampEndpoint {
 
     @GetMapping("/lamp/{id}")
     public @ResponseBody
-    Lamp getStatusLamp(@PathVariable Long id) {
+    LampDTO getStatusLamp(@PathVariable Long id) {
         //System.out.println("getStatusLamp: /lamp/" + id);
         log.info("getStatusLamp: /lamp/{}", id);
-        return service.statusLamp(id);
+        return service.statusLampDTO(id);
     }
 
     @GetMapping("/lamp")
     public @ResponseBody
-    List<Lamp> getStatusLampen() {
+    List<LampDTO> getStatusLampen() {
         //System.out.println("getStatusLampen: /lamp");
         log.info("getStatusLampen: /lamp");
-        return service.statusLampen();
+        return service.statusLampenDTO();
     }
 
     @PutMapping("/lamp/{id}")

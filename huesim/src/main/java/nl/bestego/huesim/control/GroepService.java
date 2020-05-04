@@ -146,7 +146,7 @@ public class GroepService {
     private Set<Long> validateLampIds(Set<Long> lampIds) {
         Set<Long> validatedIds = new HashSet<>(lampIds);
         for (Long id : lampIds) {
-            if (lampService.statusLamp(id).getId() == null) {
+            if (lampService.statusLampDTO(id).getId() == null) {
                 validatedIds.remove(id);
             }
         }
