@@ -23,6 +23,8 @@ public class Groep {
     private Long id;
     private String omschrijving;
     private String lamplijst;
+
+    // Owning side
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
             name = "groep_lamp",
@@ -31,12 +33,9 @@ public class Groep {
     )
     @JsonIgnore
     private Set<Lamp> lampen;
-    @Transient
-    Set<Long> lampIds;
 
     private boolean enkele_aan;
     private boolean alle_aan;
-
 
     public Groep(){}
 

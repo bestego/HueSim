@@ -22,6 +22,8 @@ public class Lamp {
     private boolean aan;
     @Range(message = "Waarde niet tussen {min}..{max}", min = 0, max = 100)
     private int helderheid;
+
+    // Reverse side
     @ManyToMany(mappedBy = "lampen")
     @JsonIgnore
     private Set<Groep> groepen = new HashSet();
@@ -57,6 +59,4 @@ public class Lamp {
     public String toString() {
         return String.format("id:%d omschrijving:%s aan:%s helderheid:%d", getId(), getOmschrijving(), isAan(), getHelderheid());
     }
-
-
-        }
+}
