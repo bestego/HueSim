@@ -13,6 +13,7 @@ public class LampUtil {
     public static LampDTO nieuweLamp(Long id) {
         LampDTO lamp = new LampDTO();
         lamp.setId(id);
+        lamp.setOmschrijving("lamp-"+id);
         lamp.setAan(false);
         lamp.setHelderheid(50);
         return lamp;

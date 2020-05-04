@@ -35,8 +35,13 @@ public class LampEndpointTest {
     private LampService service;
 
     @org.junit.Test
-    @Ignore
     public void getStatusLamp() throws Exception {
+        when(service.statusLampDTO(1L)).thenReturn(LampUtil.nieuweLamp(1L));
+        mvc.perform(MockMvcRequestBuilders
+                .get("/lamp/1")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("helderheid", is(50)));
     }
 
     @org.junit.Test
