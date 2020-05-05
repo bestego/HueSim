@@ -22,6 +22,10 @@ public class LampService {
     @Autowired
     GroepService groepService;
 
+    public boolean isAanwezig(Long id){
+        return repository.findById(id).isPresent();
+    }
+
     public void nieuweLamp(Lamp lamp) {
         repository.save(lamp); //ToDo add checks later
     }
@@ -45,9 +49,9 @@ public class LampService {
     }
 
     public LampDTO statusLampDTO(Long id) {
-        Optional<Lamp> result = repository.findById(id);
-        if (result.isPresent()) {
-            return new LampDTO(result.get());
+        Optional<Lamp> lamp = repository.findById(id);
+        if (lamp.isPresent()) {
+            return new LampDTO(lamp.get());
         } else {
             return new LampDTO();
         }

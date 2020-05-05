@@ -3,13 +3,13 @@ package nl.bestego.huesim.control;
 import nl.bestego.huesim.dto.GroepDTO;
 import nl.bestego.huesim.model.Groep;
 import nl.bestego.huesim.model.Lamp;
-import nl.bestego.huesim.util.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Transactional
@@ -26,16 +26,18 @@ public class GroepService {
     }
 
     public List<GroepDTO> statusGroepen() {
-        return repository.findAll().stream()
+        synchroniseerMetLampen();
+        Stream<Groep> groepen = repository.findAll().stream();
+        return groepen
                 .map(GroepDTO::new)
                 .collect(Collectors.toList());
     }
 
     public GroepDTO statusGroep(Long id) {
-        Optional<Groep> result = repository.findById(id);
-        if (result.isPresent()) {
-            //synchroniseerMetLampen();
-            return new GroepDTO(result.get());
+        Optional<Groep> groep = repository.findById(id);
+        if (groep.isPresent()) {
+            synchroniseerMetLampen();
+            return new GroepDTO(groep.get());
         } else {
             return new GroepDTO();
         }
@@ -53,6 +55,7 @@ public class GroepService {
     }
 
     public boolean voegLampToe(Lamp lamp, Long id) {
+        if (!lampService.isAanwezig(lamp.getId())) return false;
         Optional<Groep> oudeGroep = repository.findById(id);
         if (oudeGroep.isPresent()) {
             Set<Lamp> lampSet = oudeGroep.get().getLampen();
@@ -65,27 +68,16 @@ public class GroepService {
         }
     }
 
-    public boolean wijzigActieGroep(Groep groep, Long id) {
-        Optional<Groep> oudeGroep = repository.findById(id);
-        if (oudeGroep.isPresent()) {
-            if (groep.getOmschrijving() != null) oudeGroep.get().setOmschrijving(groep.getOmschrijving());
-            if (groep.getLamplijst() != null) oudeGroep.get().setLamplijst(groep.getLamplijst());
-            repository.save(oudeGroep.get());
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     public boolean actieGroep(Lamp lampUpdate, Long groepId) {
+
         Optional<Groep> groep = repository.findById(groepId);
         if (groep.isPresent()) {
-            Set<Long> lampIds = getLampIds(groep.get());
-            for (Long lampId : lampIds) {
-                Lamp lamp = lampService.statusLamp(lampId);
-                lamp.setAan(lampUpdate.isAan());
-                lamp.setHelderheid(lampUpdate.getHelderheid());
-                lampService.wijzigStatusLamp(lamp, lampId);
+            Set<Lamp> lampen = groep.get().getLampen();
+            for (Lamp lamp : lampen) {
+                Lamp lampGewijzigd = lampService.statusLamp(lamp.getId());
+                lampGewijzigd.setAan(lampUpdate.isAan());
+                lampGewijzigd.setHelderheid(lampUpdate.getHelderheid());
+                lampService.wijzigStatusLamp(lampGewijzigd, lamp.getId());
             }
             synchroniseerMetLampen();
             return true;
@@ -98,9 +90,8 @@ public class GroepService {
 
         List<Groep> groepen = repository.findAll();
         for (Groep groep : groepen) {
-            Set<Long> lampIds = getLampIds(groep);
-            boolean alleAan = isAlleAan(lampIds);
-            boolean enkeleAan = isEnkeleAan(lampIds);
+            boolean alleAan = isAlleAan(groep.getLampen());
+            boolean enkeleAan = isEnkeleAan(groep.getLampen());
             updateGroep(groep, alleAan, enkeleAan);
         }
     }
@@ -116,42 +107,18 @@ public class GroepService {
         repository.save(groep);
     }
 
-    private boolean isEnkeleAan(Set<Long> lampIds) {
-        return lampIds
+    private boolean isEnkeleAan(Set<Lamp> lampen) {
+        return lampen
                 .stream()
-                .map(id -> lampService.statusLamp(id))
+                .map(lamp -> lampService.statusLamp(lamp.getId()))
                 .anyMatch(Lamp::isAan);
     }
 
-    private boolean isAlleAan(Set<Long> lampIds) {
-        return lampIds
+    private boolean isAlleAan(Set<Lamp> lampen) {
+        return lampen
                 .stream()
-                .map(id -> lampService.statusLamp(id))
+                .map(lamp -> lampService.statusLamp(lamp.getId()))
                 .allMatch(Lamp::isAan);
     }
-
-    private Set<Long> getLampIds(Groep groep) {
-        Set<Long> lampIds = Arrays.stream(groep.getLamplijst().split(","))
-                .filter(s -> s.length() > 0)
-                .map(Long::new)
-                .collect(Collectors.toSet());
-
-        Set<Long> validatedLampIds = validateLampIds(lampIds);
-        groep.setLamplijst(Converter.set2csv(validatedLampIds));
-        wijzigActieGroep(groep, groep.getId());
-
-        return validatedLampIds;
-    }
-
-    private Set<Long> validateLampIds(Set<Long> lampIds) {
-        Set<Long> validatedIds = new HashSet<>(lampIds);
-        for (Long id : lampIds) {
-            if (lampService.statusLampDTO(id).getId() == null) {
-                validatedIds.remove(id);
-            }
-        }
-        return validatedIds;
-    }
-
 
 }

@@ -23,7 +23,6 @@ public class LampEndpoint {
     @GetMapping("/lamp/{id}")
     public @ResponseBody
     LampDTO getStatusLamp(@PathVariable Long id) {
-        //System.out.println("getStatusLamp: /lamp/" + id);
         log.info("getStatusLamp: /lamp/{}", id);
         return service.statusLampDTO(id);
     }
@@ -39,7 +38,6 @@ public class LampEndpoint {
     @PutMapping("/lamp/{id}")
     public @ResponseBody
     ResponseEntity<String> wijzigNaamLamp(@RequestBody @Valid Lamp lamp, @PathVariable Long id) {
-        //System.out.println("putWijzigNaamLamp: /lamp/" + id);
         if (service.wijzigNaamLamp(lamp, id)) {
             log.info("putWijzigNaamLamp: /lamp/{}", id);
             return new ResponseEntity<>("OK", HttpStatus.OK);

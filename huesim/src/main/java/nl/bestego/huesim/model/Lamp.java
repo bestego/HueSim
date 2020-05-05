@@ -26,7 +26,7 @@ public class Lamp {
     // Reverse side
     @ManyToMany(mappedBy = "lampen")
     @JsonIgnore
-    private Set<Groep> groepen = new HashSet();
+    private Set<Groep> groepen = new HashSet<>();
 
     public Lamp() {
     }
@@ -47,7 +47,9 @@ public class Lamp {
             return false;
 
         Lamp lamp = (Lamp) object;
-        return (id.equals(lamp.id));
+
+        return (id.equals(lamp.id) && omschrijving.equals(lamp.omschrijving)
+                && aan == lamp.aan && helderheid == lamp.helderheid);
     }
 
     @Override

@@ -1,19 +1,10 @@
 package nl.bestego.huesim.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import sun.awt.OSInfo;
 
-import javax.annotation.sql.DataSourceDefinitions;
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
-
 
 @Entity
 @Data
@@ -43,4 +34,5 @@ public class Groep {
         this.id = id;
         this.omschrijving = omschrijving;
     }
+
 }

@@ -3,6 +3,7 @@ package nl.bestego.huesim.rest;
 import lombok.extern.slf4j.Slf4j;
 import nl.bestego.huesim.control.GroepService;
 import nl.bestego.huesim.dto.GroepDTO;
+import nl.bestego.huesim.dto.LampDTO;
 import nl.bestego.huesim.model.Groep;
 import nl.bestego.huesim.model.Lamp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +30,14 @@ public class GroepEndpoint {
 
     @GetMapping("/groep/{id}")
     public @ResponseBody
-    GroepDTO StatusGroep(@PathVariable Long id) {
-        System.out.println("StatusGroep: /lamp/" + id);
-        return service.statusGroep(id);
+    ResponseEntity<GroepDTO> StatusGroep(@PathVariable Long id) {
+        log.info("StatusGroep: /groep/{id}", id);
+        GroepDTO groepDTO = service.statusGroep(id);
+        if (groepDTO.getId() != null){
+            return new ResponseEntity<>(groepDTO,HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(groepDTO,HttpStatus.NO_CONTENT);
+        }
     }
 
     @PutMapping("/groep/{id}/lamp")

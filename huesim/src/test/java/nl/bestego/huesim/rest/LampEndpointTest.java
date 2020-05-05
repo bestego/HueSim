@@ -33,7 +33,8 @@ public class LampEndpointTest {
 
     @org.junit.Test
     public void getStatusLamp() throws Exception {
-        when(service.statusLampDTO(1L)).thenReturn(LampUtil.nieuweLampDTO(1L));
+        Long id = 2L;
+        when(service.statusLampDTO(id)).thenReturn(LampUtil.nieuweLampDTO(id));
         mvc.perform(MockMvcRequestBuilders
                 .get("/lamp/1")
                 .accept(MediaType.APPLICATION_JSON))
