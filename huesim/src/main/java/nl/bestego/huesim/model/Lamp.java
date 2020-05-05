@@ -57,8 +57,4 @@ public class Lamp {
         return id.intValue();
     }
 
-    // ToDo: only for debugging; remove
-    public String toString() {
-        return String.format("id:%d omschrijving:%s aan:%s helderheid:%d", getId(), getOmschrijving(), isAan(), getHelderheid());
-    }
 }
