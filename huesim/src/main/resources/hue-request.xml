@@ -1,0 +1,9 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:gs="http://bestego.nl/guides/gs-producing-web-service">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <gs:getLampRequest>
+            <gs:id>1</gs:id>
+        </gs:getLampRequest>
+    </soapenv:Body>
+</soapenv:Envelope>

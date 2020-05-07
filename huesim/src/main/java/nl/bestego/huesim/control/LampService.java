@@ -1,5 +1,6 @@
 package nl.bestego.huesim.control;
 
+import nl.bestego.guides.gs_producing_web_service.LampSoap;
 import nl.bestego.huesim.dto.LampDTO;
 import nl.bestego.huesim.model.Groep;
 import nl.bestego.huesim.model.Lamp;
@@ -20,9 +21,9 @@ public class LampService {
     private LampRepository repository;
 
     @Autowired
-    GroepService groepService;
+    private GroepService groepService;
 
-    public boolean isAanwezig(Long id){
+    public boolean isAanwezig(Long id) {
         return repository.findById(id).isPresent();
     }
 
@@ -46,6 +47,16 @@ public class LampService {
     public Lamp statusLamp(Long id) {
         Optional<Lamp> result = repository.findById(id);
         return result.orElse(new Lamp());
+    }
+
+    public LampSoap dto2soap(LampDTO lampDTO) {
+        LampSoap lampSoap = new LampSoap();
+        lampSoap.setId(lampDTO.getId());
+        lampSoap.setOmschrijving(lampDTO.getOmschrijving());
+        lampSoap.setGroepLijst(lampDTO.getGroepLijst());
+        lampSoap.setAan(lampDTO.isAan());
+        lampSoap.setHelderheid(lampDTO.getHelderheid());
+        return lampSoap;
     }
 
     public LampDTO statusLampDTO(Long id) {
