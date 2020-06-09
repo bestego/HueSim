@@ -18,9 +18,9 @@ public class LampEndpointSoap {     // name must be unique in project
     @Autowired
     private LampService service;
 
-    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getLampRequest")   // refers to 'element name' in .xsd
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getLampRequest")   // must only match gs tag in .xml post body
     @ResponsePayload
-    public GetLampResponse getLamp(@RequestPayload GetLampRequest request) {    // names GetLampResponse/Request can be freely chosen
+    public GetLampResponse getLamp(@RequestPayload GetLampRequest request) {    // must match names in .xsd (lowercase there is automatically converted to uppercase)
         log.info("SOAP getLamp ");
         GetLampResponse response = new GetLampResponse();
         response.setLamp(service.dto2soap(service.statusLampDTO(request.getId()))); // ToDo: fix NullpointerException for non-existing lamp

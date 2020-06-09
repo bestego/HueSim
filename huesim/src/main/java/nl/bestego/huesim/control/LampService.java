@@ -90,7 +90,7 @@ public class LampService {
 
     public boolean wijzigStatusLamp(Lamp lamp, Long id) {
         Optional<Lamp> oudeLamp = repository.findById(id);
-        if (oudeLamp.isPresent() && lamp.getOmschrijving().length() > 0) {
+        if (oudeLamp.isPresent()) {
             oudeLamp.get().setAan(lamp.isAan());
             oudeLamp.get().setHelderheid(lamp.getHelderheid());
             repository.save(oudeLamp.get());
