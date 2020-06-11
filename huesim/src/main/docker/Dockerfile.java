@@ -1,8 +1,5 @@
-FROM java:8-jre-alpine
-
-EXPOSE 8080
-
-RUN mkdir /app
-COPY target/ /app/identitygateway.jar
-
-ENTRYPOINT ["java","/app/identitygateway.jar/opensignum-identity-gateway-1.0-SNAPSHOT.jar"]
+FROM openjdk:8-jdk-alpine
+        EXPOSE 8088
+        ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} SpringDemoApp.jar
+ENTRYPOINT ["java","-jar","/SpringDemoApp.jar"]
