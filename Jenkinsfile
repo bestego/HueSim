@@ -15,7 +15,7 @@ pipeline {
 			extensions: [], submoduleCfg: [],
 			userRemoteConfigs: [[credentialsId: 'Github',
 			url: 'https://github.com/bestego/HueSim.git']]])
-		sh "mvn clean package -DskipTests"
+		sh "mvn -f huesim/pom.xml clean package -DskipTests"
             }
         }
          stage('JWT Token') {
