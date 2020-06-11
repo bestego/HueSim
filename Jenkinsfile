@@ -47,7 +47,7 @@ pipeline {
               		def removeImageResponse = httpRequest acceptType: 'APPLICATION_JSON', customHeaders:[[name:'Authorization', value:"${JWTTOKEN}"]], contentType: 'APPLICATION_JSON', validResponseCodes: '200,404', httpMode: 'DELETE', ignoreSslErrors: true, consoleLogResponseBody: false, url: "http://localhost:9000/api/endpoints/1/docker/images/springboot/springboot?force=true"
 
  		            echo 'Creating image ....'
- 		            def dockerFile = 'src/main/docker/Dockerfile.java'
+ 		            def dockerFile = 'huesim/src/main/docker/Dockerfile.java'
                     sh "docker build -f ${dockerFile} -t springboot/springboot ."
 
                 	echo 'Creating container ....'
